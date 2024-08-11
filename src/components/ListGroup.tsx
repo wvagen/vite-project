@@ -1,12 +1,27 @@
-const list = ["Roua", "Sohaieb", "Mouadh"];
+import { useState } from "react";
 
-function ListGroup() {
+interface Props {
+  heading: string,
+  items: string[],
+  onSelectItem(item: string): void,
+}
+
+function ListGroup({ items, heading, onSelectItem }: Props) {
+
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
   return (
     <>
-      <h1>My List</h1>
+      {items.length == 0 &&
+        <h1>List is Empty</h1>}
+      <h1>{heading}</h1>
       <ul className="list-group">
-        {list.map((item) => (
-          <li key={item}>{item}</li>
+        {items.map((item, index) => (
+          <li className={selectedIndex == index ? "list-group-item active" : 'list-group-item'} onClick={() => {
+            setSelectedIndex(index);
+            onSelectItem(item)
+          }
+          }>{item}</li>
         ))}
       </ul>
     </>
